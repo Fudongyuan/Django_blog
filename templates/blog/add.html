@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>富文本编辑器</title>
+    <script src="/static/tiny_mce/tiny_mce.js"></script>
+	<script src="/static/zh_CN.js"></script>
+    <script src="{% static 'js/jquery.min.js' %}" type="text/javascript"></script>
+    <script>
+        tinyMCE.init({
+            'mode':'textareas',
+            'width':800,
+            'height':600,
+        })
+    </script>
+</head>
+<body >
+<div style="margin-left: 20px">
+{#    {% url 'blog:save' %}#}
+    <form name="" action="{% url 'blog:add' %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    标题：<input type="text" name="title">
+        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+        
+        <br><br>
+{#        1.散文，2.诗歌，3.叙事，4.日记，5.摘抄#}
+{#    选择文章分类：<input type="text" name="sort">#}
+
+    内容：<br><br><textarea name="content" style="width:400px;height:250px; border:1px solid #ddd;"></textarea><br><br>
+
+		<input type="submit" name="publish" value="发表博客">
+
+
+{#    <input type="button" onclick="test(2)" value="存为草稿">#}
+
+    </form>
+</div>
+
+{#<script type="text/javascript">#}
+{#    function test(val) {#}
+{#        //判断参数#}
+{#        if (val == 1) {#}
+{#            console.log('===============')#}
+{#            var url = "/飙泪og/示爱ve/";#}
+{#            var params = $("#boke").serialize();#}
+{#            //异步处理#}
+{#            $.post(url, params);#}
+{#        }#}
+{#        if (val == 2) {  //保存到草稿箱#}
+{#            console.log('+++++++++++++++++')#}
+{#            var url = "/飙泪og/draft/";#}
+{#            var params = $("#boke").serialize();#}
+{#            //异步处理#}
+{#            $.post(url, params);#}
+{#        }#}
+{#    }#}
+{#</script>#}
+</body>
+</html>

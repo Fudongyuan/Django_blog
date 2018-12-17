@@ -1,0 +1,143 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>注册</title>
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <link href="{% static 'css/reglogin.css' %}" rel='stylesheet' type='text/css'/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type="text/css">
+        .tishi1 {
+            display: none
+        }
+
+        .tishi2 {
+            display: none
+        }
+
+        body {
+            background-image: url("{% static 'images/2222.jpg' %}");
+            background-repeat: no-repeat;
+        }
+
+
+    </style>
+
+</head>
+<body>
+
+<div class="main">
+    <div class="header">
+        <h1>——欢迎注册——</h1>
+    </div>
+    <p></p>
+    <form action="{% url 'blog:logon' %}" method="post">
+        {% csrf_token %}
+        <ul class="left-form">
+            <h2>注册:</h2>
+            <li>
+                <input type="text" placeholder="用户名" name="username" required/>
+                {#						<a href="#" class="icon ticker"> </a>#}
+                <div class="clear"></div>
+            </li>
+
+            <li>
+                <input type="password" placeholder="密码" name="password" id="p1" required/>
+                {#						<a href="#" class="icon into"> </a>#}
+                <div class="clear"></div>
+            </li>
+            <li>
+                <input type="password" placeholder="确认密码" id="p2" required/>
+                {#						<a href="#" class="icon into"></a>#}
+                <div class="clear"></div>
+            </li>
+            <li>
+                <input type="text" placeholder="手机号码" name="phone" id="phone" required/>
+                {#						<a href="#" class="icon into"> </a>#}
+                <div class="clear"></div>
+            </li>
+            <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="button" value="     获取验证码     " class="yzm">
+            </li>
+            <li>
+                <input type="text" placeholder="短信验证码" name="yzm" required/>
+                {#						<a href="#" class="icon into"> </a>#}
+                <div class="clear"></div>
+            </li>
+
+            <p class="tishi1">&nbsp密码不一致</p>
+            <p class="tishi2">手机号输入有误</p>
+            <input type="submit" value="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注册&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+                   class="zhuce">　
+            <a href="{% url 'blog:login' %}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;登录</a>
+            <div class="clear"></div>
+        </ul>
+        <div class="clear"></div>
+
+    </form>
+</div>
+</body>
+</html>
+<script>
+    $(document).ready(function () {
+        $('#p2').blur(function () {
+            var p1 = $('#p1').val()
+            var p2 = $('#p2').val()
+            //console.log(p1)
+            //console.log(p2)
+            if (p1 != p2) {
+                $('.zhuce').attr('disabled', true)
+                $('.tishi1').show()
+                //setTimeout(function () {
+                //$('.tishi').hide()
+                //},3000)
+            } else {
+                $('.tishi1').hide()
+                $('.zhuce').attr('disabled', false)
+            }
+        })
+        $('#phone').blur(function () {
+            var phone = $('#phone').val()
+            //console.log(phone)
+            if (12999999999 < phone && phone < 18899999999) {
+                console.log(phone)
+                $('.yzm').attr('disabled', false)
+                $('.tishi2').hide()
+            } else {
+                $('.tishi2').show()
+                $('.yzm').attr('disabled', true)
+            }
+
+
+        })
+    })
+
+    // 验证码
+    var time = 30
+    var timer //定时器
+    $(".yzm").click(function () {
+        console.log("start")
+        var _this = this  //获取当前的按钮对象
+        this.disabled = true  //禁止点击
+        timer = setInterval(function () {
+            time--
+            _this.value = '请' + time + "后获取验证码"
+            if (time < 1) {
+                _this.disabled = false
+                _this.value = '获取验证码'
+                clearInterval(timer)
+                timer = null
+            }
+
+        }, 1000)
+        value = $("#phone").val()
+        // 通知后台给手机
+        $.get('{% url 'blog:send' %}', {'phone': value}, function (data) {
+            console.log(data)
+        }, 'json')
+    })
+
+
+</script>
